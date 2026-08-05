@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 20th Birthday Duckie! 🐤</title>
+    <style>
+        /* Base Reset & Styling */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #fff9c4; /* Cute Soft Yellow */
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Fredoka', cursive, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #5d4037;
+            text-align: center;
+        }
+
+        /* Floating Items Container */
+        .floating-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Floating Ducks & Bubbles */
+        .duck, .bubble {
+            position: absolute;
+            bottom: -80px;
+            user-select: none;
+            animation: floatUp linear forwards;
+        }
+
+        .duck {
+            font-size: 2.5rem;
+        }
+
+        .bubble {
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            pointer-events: auto; /* Clickable bubbles! */
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .bubble:active {
+            transform: scale(1.4);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0.2;
+            }
+        }
+
+        /* Birthday Card Window */
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 6px solid #ffee58;
+            border-radius: 30px;
+            padding: 40px 30px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            position: relative;
+            animation: bounceIn 1s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #f57f17;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px #fff;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #ff9800;
+            margin-bottom: 20px;
+        }
+
+        /* Duckie's Photo Frame */
+        .photo-frame {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            border: 6px solid #ffca28;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(245, 127, 23, 0.2);
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #6d4c41;
+            margin-bottom: 20px;
+        }
+
+        /* Pop Counter Badge */
+        .pop-counter {
+            font-weight: bold;
+            color: #f57f17;
+            background: #fff9c4;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            border: 2px dashed #ffb300;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-container" id="float-container"></div>
+
+    <div class="card">
+        <h1>HAPPY 20TH BIRTHDAY! 🥳</h1>
+        <h2>To the one & only Duckie 🐥</h2>
+
+        <div class="photo-frame">
+            <!-- Put Duckie's photo file in the same GitHub folder and name it duckie.jpg -->
+            <img src="duckie.jpg" alt="Duckie's Birthday Photo" onerror="this.src='https://via.placeholder.com/180/ffee58/5d4037?text=Put+Duckie+Photo+Here'">
+        </div>
+
+        <p>Wishing you the happiest, duckiest 20th year full of joy, success, and endless laughter! Keep shining bright! ✨💛</p>
+
+        <div class="pop-counter">
+            🫧 Bubbles Popped: <span id="pop-count">0</span>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('float-container');
+        const popCountEl = document.getElementById('pop-count');
+        let popCount = 0;
+
+        // Generator for Ducks
+        function createDuck() {
+            const duck = document.createElement('div');
+            duck.classList.add('duck');
+            duck.innerText = '🐤';
+            duck.style.left = Math.random() * 90 + 'vw';
+            duck.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            container.appendChild(duck);
+
+            setTimeout(() => duck.remove(), 10000);
+        }
+
+        // Generator for Bubbles
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            
+            const size = Math.random() * 40 + 20; // 20px to 60px
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = Math.random() * 95 + 'vw';
+            bubble.style.animationDuration = (Math.random() * 5 + 5) + 's';
+
+            // Pop bubble on click
+            bubble.addEventListener('click', () => {
+                popCount++;
+                popCountEl.innerText = popCount;
+                bubble.remove();
+            });
+
+            container.appendChild(bubble);
+
+            setTimeout(() => {
+                if(container.contains(bubble)) bubble.remove();
+            }, 10000);
+        }
+
+        // Spawn items automatically
+        setInterval(createDuck, 1200);
+        setInterval(createBubble, 600);
+    </script>
+</body>
+</html>
